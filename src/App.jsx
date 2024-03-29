@@ -7,6 +7,7 @@ import profilePicture from "@/assets/profilepicture.jpg"
 import qwaleLogo from "@/assets/qwale.jpg"
 import orionLogo from "@/assets/orion.jpg"
 import cogitareLogo from "@/assets/cogitare.jpg"
+import kogitsioLogo from "@/assets/kogit.jpg"
 
 import instagramLogo from "@/assets/instagram.svg"
 import githubLogo from "@/assets/github.svg"
@@ -31,14 +32,22 @@ const skillList = {
     "R",
     "VB.NET",
     "Xojo",
+    "Android Studio",
+    "Xcode",
+    "HTML/CSS",
   ],
   databases: [
     "MongoDB",
     "PostgreSQL",
     "MySQL",
     "Firebase",
+    "GCP",
     "AWS",
-    "Azure"
+    "Azure",
+    "fly.io",
+    "Render",
+    "OpenAI API",
+    "Github"
   ],
   gamedev: [
     "Unity",
@@ -51,7 +60,10 @@ const skillList = {
     "Statistics",
     "Accounting",
     "Engineering",
-    "Marketing Campaigns"
+    "Marketing Campaigns",
+    "AI/Machine Learning",
+    "Linux Development",
+    "Network Virtualization"
   ],
   productivity: [
     "Adobe Illustrator",
@@ -176,7 +188,7 @@ const Skills = () => {
             {skillList.programming.map((s, i) => (<Badge key={i}>{s}</Badge>))}
           </div>
             
-          <h3 className="text-lg my-2 font-semibold">Databases/Clouds</h3>
+          <h3 className="text-lg my-2 font-semibold">Cloud Tools</h3>
           <div className="flex gap-1 flex-wrap">  
             {skillList.databases.map((s, i) => (<Badge key={i}>{s}</Badge>))}
           </div>
@@ -234,6 +246,7 @@ const Highlights = () => {
   return(
     <div className="grid sm:grid-cols-2 gap-4">
       <Personal name="Qwale" subtitle="qwale.ca" color="bg-theme-purple" description="SaaS suite development" image={qwaleLogo} url="https://qwale.ca" />
+      <Personal name="Kogitsio" subtitle="kogits.io" color="bg-theme-gray" description="AI search asssitant" image={kogitsioLogo} url="https://kogits.io" />
       <Personal name="Cogitare" subtitle="cogitare.io" color="bg-theme-green" description="AI-powered grammar correction" image={cogitareLogo} url="https://cogitare.io" />
       <Personal name="Orion Studios" subtitle="orionstudio.ca" color="bg-theme-blue" description="Indie game publishing" image={orionLogo} url="https://orionstudio.ca" />
     </div>

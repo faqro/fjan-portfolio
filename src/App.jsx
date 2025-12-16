@@ -22,7 +22,7 @@ import bandcampLogo from "@/assets/bandcamp.svg"
 const skillList = {
   programming: [
     "C++",
-    "Javascript",
+    "Javascript/Typescript",
     "Java",
     "Python",
     "React",
@@ -35,19 +35,37 @@ const skillList = {
     "Android Studio",
     "Xcode",
     "HTML/CSS",
+    "Qiskit",
+    "Haskell",
+    "Django",
+    "Qt Framework"
   ],
   databases: [
     "MongoDB",
     "PostgreSQL",
     "MySQL",
     "Firebase",
+    "LanceDB",
+    "SPARQL RDF",
+    "Cassandra"
+  ],
+  network: [
     "GCP",
     "AWS",
     "Azure",
     "fly.io",
     "Render",
+    "Git",
+    "Docker",
+    "Kubernetes",
+    "Proxmox"
+  ],
+  ai: [
+    "Large Language Models",
+    "Machine Learning",
+    "Retrieval-Augmented Generation",
     "OpenAI API",
-    "Github"
+    "embedJS"
   ],
   gamedev: [
     "Unity",
@@ -61,7 +79,6 @@ const skillList = {
     "Accounting",
     "Engineering",
     "Marketing Campaigns",
-    "AI/Machine Learning",
     "Linux Development",
     "Network Virtualization"
   ],
@@ -76,13 +93,15 @@ const skillList = {
     "Paint.NET",
     "Microsoft Office",
     "GSuite",
+    "Jira",
+    "Confluence",
+    "LucidChart"
   ],
   languages: [
     "English",
     "French",
     "Urdu",
-    "Italian",
-    "Swedish"
+    "Japanese"
   ]
 }
 
@@ -188,9 +207,14 @@ const Skills = () => {
             {skillList.programming.map((s, i) => (<Badge key={i}>{s}</Badge>))}
           </div>
             
-          <h3 className="text-lg my-2 font-semibold">Cloud Tools</h3>
+          <h3 className="text-lg my-2 font-semibold">Databases</h3>
           <div className="flex gap-1 flex-wrap">  
             {skillList.databases.map((s, i) => (<Badge key={i}>{s}</Badge>))}
+          </div>
+            
+          <h3 className="text-lg my-2 font-semibold">Cloud Tools</h3>
+          <div className="flex gap-1 flex-wrap">  
+            {skillList.network.map((s, i) => (<Badge key={i}>{s}</Badge>))}
           </div>
             
           <h3 className="text-lg my-2 font-semibold">Productivity/Creativity</h3>
@@ -200,6 +224,11 @@ const Skills = () => {
         </div>
           
         <div>
+          <h3 className="text-lg my-2 font-semibold">Artificial Intelligence</h3>
+          <div className="flex gap-1 flex-wrap">  
+            {skillList.ai.map((s, i) => (<Badge key={i}>{s}</Badge>))}
+          </div>
+
           <h3 className="text-lg my-2 font-semibold">Game Development</h3>
           <div className="flex gap-1 flex-wrap">  
             {skillList.gamedev.map((s, i) => (<Badge key={i}>{s}</Badge>))}
@@ -244,11 +273,9 @@ const Footer = () => {
 
 const Highlights = () => {
   return(
-    <div className="grid sm:grid-cols-2 gap-4">
+    <div className="grid sm:grid-cols-2 grid-rows-2 gap-4">
       <Personal name="Qwale" subtitle="qwale.ca" color="bg-theme-purple" description="SaaS suite development" image={qwaleLogo} url="https://qwale.ca" />
       <Personal name="Kogitsio" subtitle="kogits.io" color="bg-theme-gray" description="AI search asssitant" image={kogitsioLogo} url="https://kogits.io" />
-      <Personal name="Cogitare" subtitle="cogitare.io" color="bg-theme-green" description="AI-powered grammar correction" image={cogitareLogo} url="https://cogitare.io" />
-      <Personal name="Orion Studios" subtitle="orionstudio.ca" color="bg-theme-blue" description="Indie game publishing" image={orionLogo} url="https://orionstudio.ca" />
     </div>
   )
 }

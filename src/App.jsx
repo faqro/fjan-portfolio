@@ -28,6 +28,7 @@ const skillList = {
     "Python",
     "React",
     "Node/Express",
+    "Kotlin",
     "C#",
     "C",
     "R",
@@ -109,12 +110,12 @@ const skillList = {
 const experienceList = [
   {
     company: "Amazon Web Services",
-    role: "Software Developer Engineer Intern",
-    date: "May 2026-",
+    role: "Software Development Engineer Intern",
+    date: "May 2026-Aug 2026",
     location: "Austin, Texas",
     image: awsLogo,
-    description: "",
-    current: true
+    description: "Developed test aggregation integration for Machine Learning Accelerator firmware testing engine. Created central dashboard with visualizations of aggregated firmware test results for live test results on AWS hardware. Created integration for firmware testing with internal continuous testing tracking service, to track firmware versions readiness from development to release.",
+    current: false
   },
   {
     company: "Verdance Development Corporation",
@@ -154,7 +155,7 @@ const educationList = [
   {
     company: "Carleton University",
     role: "Hon. BCS",
-    date: "Sep 2024-Present",
+    date: "Sep 2024-May 2027",
     location: "Ottawa, Canada",
     current: true
   },
@@ -178,7 +179,7 @@ const educationList = [
   },
   {
     company: "Lisgar Collegiate Institute",
-    role: "OSSD",
+    role: "OSSD Diploma",
     date: "Sep 2019-Jun 2023",
     location: "Ottawa, Canada",
   },

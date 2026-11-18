@@ -49,6 +49,53 @@ export default function PhotoCarousel() {
     [total]
   );
 
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el || total <= 1) return;
+
+    let accum = 0;
+    let locked = false;
+    let resetTimer = null;
+    let lockTimer = null;
+
+    const handleWheel = (e) => {
+      const horizontalDelta =
+        Math.abs(e.deltaX) > Math.abs(e.deltaY)
+          ? e.deltaX
+          : e.shiftKey && e.deltaY !== 0
+            ? e.deltaY
+            : 0;
+
+      if (horizontalDelta === 0) return;
+
+      e.preventDefault();
+      if (locked) return;
+
+      accum += horizontalDelta;
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        accum = 0;
+      }, 120);
+
+      if (Math.abs(accum) >= 45) {
+        const dir = accum > 0 ? 1 : -1;
+        accum = 0;
+        locked = true;
+        paginate(dir);
+        lockTimer = setTimeout(() => {
+          locked = false;
+        }, 380);
+      }
+    };
+
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener("wheel", handleWheel);
+      clearTimeout(resetTimer);
+      clearTimeout(lockTimer);
+    };
+  }, [total, paginate]);
+
   const goToIndex = (targetIdx) => {
     if (targetIdx === safeIndex || total <= 1) return;
     setDirection(targetIdx > safeIndex ? 1 : -1);

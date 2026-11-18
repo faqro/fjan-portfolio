@@ -91,7 +91,7 @@ export default function ContactSection() {
       <footer className="mt-16 pt-8 border-t border-slate-200/70 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-slate-500">
         <p>Copyright © {new Date().getFullYear()} Faraaz Jan</p>
         <p className="text-slate-400">
-          Made with React+Vite, Tailwind, &amp; Framer
+          Made with React+Vite, Tailwind, &amp; Framer Motion
         </p>
       </footer>
     </section>

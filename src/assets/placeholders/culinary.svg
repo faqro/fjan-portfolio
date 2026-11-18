@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <defs>
+    <linearGradient id="cookBg" x1="0" y1="0" x2="800" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ECFDF5"/>
+      <stop offset="50%" stop-color="#FEF3C7"/>
+      <stop offset="100%" stop-color="#FFE4E6"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" rx="32" fill="url(#cookBg)"/>
+  <circle cx="400" cy="255" r="170" fill="#FFFFFF" fill-opacity="0.88" stroke="#E2E8F0" stroke-width="3"/>
+  <circle cx="400" cy="255" r="132" fill="#FFFBEB" stroke="#FDE68A" stroke-width="2" stroke-dasharray="4 6"/>
+  <path d="M310 295 Q385 335 475 265 Q510 235 480 205" stroke="#FB7185" stroke-width="14" stroke-linecap="round" opacity="0.65"/>
+  <path d="M325 275 Q390 305 450 250" stroke="#F59E0B" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+  <ellipse cx="395" cy="245" rx="68" ry="44" fill="#FDBA74" stroke="#EA580C" stroke-width="2.5"/>
+  <ellipse cx="395" cy="240" rx="52" ry="30" fill="#FED7AA"/>
+  <path d="M375 215 Q395 185 415 215 Q395 225 375 215 Z" fill="#34D399"/>
+  <path d="M405 225 Q435 200 440 230 Q420 240 405 225 Z" fill="#10B981"/>
+  <circle cx="350" cy="215" r="8" fill="#F43F5E" opacity="0.8"/>
+  <circle cx="455" cy="295" r="6" fill="#34D399" opacity="0.85"/>
+  <circle cx="330" cy="305" r="5" fill="#FBBF24" opacity="0.85"/>
+</svg>

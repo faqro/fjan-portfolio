@@ -77,14 +77,14 @@ export default function PhotoCarousel() {
         accum = 0;
       }, 120);
 
-      if (Math.abs(accum) >= 45) {
+      if (Math.abs(accum) >= 24) {
         const dir = accum > 0 ? 1 : -1;
         accum = 0;
         locked = true;
         paginate(dir);
         lockTimer = setTimeout(() => {
           locked = false;
-        }, 380);
+        }, 90);
       }
     };
 
@@ -133,9 +133,9 @@ export default function PhotoCarousel() {
 
   const slideTransition = {
     type: "spring",
-    stiffness: 240,
-    damping: 26,
-    mass: 0.9,
+    stiffness: 340,
+    damping: 30,
+    mass: 0.75,
   };
 
   const slideVariants = {
@@ -232,7 +232,7 @@ export default function PhotoCarousel() {
       opacity: 0,
       filter: desktop ? "blur(2px)" : "blur(0px)",
       zIndex: 0,
-      transition: { duration: 0.28, ease: "easeInOut" },
+      transition: { duration: 0.2, ease: "easeInOut" },
     }),
   };
 

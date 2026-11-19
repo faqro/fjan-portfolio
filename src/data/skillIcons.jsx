@@ -15,6 +15,8 @@ import {
   SiHaskell,
   SiDjango,
   SiQt,
+  SiRust,
+  SiElectron,
   SiMongodb,
   SiPostgresql,
   SiMysql,
@@ -82,6 +84,8 @@ const iconMap = {
   Haskell: { Icon: SiHaskell, color: "text-purple-600", bg: "bg-purple-50/90" },
   Django: { Icon: SiDjango, color: "text-emerald-700", bg: "bg-emerald-50/90" },
   "Qt Framework": { Icon: SiQt, color: "text-green-600", bg: "bg-green-50/90" },
+  Rust: { Icon: SiRust, color: "text-orange-700", bg: "bg-orange-50/90" },
+  Electron: { Icon: SiElectron, color: "text-cyan-600", bg: "bg-cyan-50/90" },
 
   MongoDB: { Icon: SiMongodb, color: "text-emerald-600", bg: "bg-emerald-50/90" },
   PostgreSQL: { Icon: SiPostgresql, color: "text-sky-700", bg: "bg-sky-50/90" },

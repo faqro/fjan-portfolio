@@ -278,6 +278,8 @@ export const skillCategories = [
       "Haskell",
       "Django",
       "Qt Framework",
+      "Rust",
+      "Electron",
     ],
   },
   {
@@ -390,6 +392,8 @@ export const skillKeywords = {
   Haskell: ["functional", "fp", "lambda"],
   Django: ["python", "py", "backend", "web", "api"],
   "Qt Framework": ["cpp", "c++", "gui", "desktop", "cross-platform"],
+  Rust: ["systems", "cargo", "crates", "memory safety", "native", "webassembly", "wasm"],
+  Electron: ["desktop", "cross-platform", "javascript", "typescript", "chromium", "nodejs", "app"],
 
   MongoDB: ["db", "database", "nosql", "document", "atlas"],
   PostgreSQL: ["db", "database", "sql", "postgres", "relational"],

@@ -1,6 +1,12 @@
 import { motion } from "framer-motion";
 
-export default function SectionHeader({ eyebrow, title, subtitle, pillColor = "bg-violet-100/80 text-violet-700" }) {
+export default function SectionHeader({
+  eyebrow,
+  title,
+  titleAction,
+  subtitle,
+  pillColor = "bg-violet-100/80 text-violet-700",
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 18 }}
@@ -16,9 +22,12 @@ export default function SectionHeader({ eyebrow, title, subtitle, pillColor = "b
           {eyebrow}
         </span>
       )}
-      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">
-        {title}
-      </h2>
+      <div className="flex items-center gap-3">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">
+          {title}
+        </h2>
+        {titleAction}
+      </div>
       {subtitle && (
         <p className="mt-2 text-sm sm:text-base text-slate-600 max-w-2xl">
           {subtitle}

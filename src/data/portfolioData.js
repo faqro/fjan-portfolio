@@ -45,6 +45,19 @@ export const profileData = {
   ],
 };
 
+export const businessCardData = {
+  position: "Software Engineer",
+  linkedin: {
+    label: "linkedin.com/in/faraaz-jan",
+    url: "https://www.linkedin.com/in/faraaz-jan/",
+  },
+  github: {
+    label: "github.com/faqro",
+    url: "https://github.com/faqro/",
+  },
+  email: "me@faraaz.page",
+};
+
 export const projectsList = [
   {
     name: "BicerinMatrix",

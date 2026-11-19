@@ -8,6 +8,7 @@ import SkillsSection from "@/components/SkillsSection";
 import HobbiesSection from "@/components/HobbiesSection";
 import PhotoCarousel from "@/components/PhotoCarousel";
 import ContactSection from "@/components/ContactSection";
+import CustomContextMenu from "@/components/CustomContextMenu";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
       <div className="min-h-screen relative text-slate-800 overflow-x-clip">
         <AmbientBackground />
         <Navbar />
+        <CustomContextMenu />
         <main>
           <HeroSection />
           <ExperienceSection />

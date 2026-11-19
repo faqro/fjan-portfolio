@@ -16,6 +16,15 @@ export default function PhotoCarousel() {
   );
   const [stageWidth, setStageWidth] = useState(1000);
   const stageRef = useRef(null);
+  const touchStateRef = useRef({
+    active: false,
+    startX: 0,
+    startY: 0,
+    lastDx: 0,
+    lockedAxis: null,
+  });
+  const touchActiveRef = useRef(false);
+  const suppressTapRef = useRef(false);
 
   const total = photographyList.length;
   const safeIndex = total > 0 ? index % total : 0;
@@ -100,6 +109,62 @@ export default function PhotoCarousel() {
     if (targetIdx === safeIndex || total <= 1) return;
     setDirection(targetIdx > safeIndex ? 1 : -1);
     setIndex(targetIdx);
+  };
+
+  const handleTouchStart = (e) => {
+    if (total <= 1 || e.touches.length !== 1) return;
+    const touch = e.touches[0];
+    touchActiveRef.current = true;
+    suppressTapRef.current = false;
+    touchStateRef.current = {
+      active: true,
+      startX: touch.clientX,
+      startY: touch.clientY,
+      lastDx: 0,
+      lockedAxis: null,
+    };
+  };
+
+  const handleTouchMove = (e) => {
+    const state = touchStateRef.current;
+    if (!state.active || e.touches.length !== 1) return;
+    const touch = e.touches[0];
+    const dx = touch.clientX - state.startX;
+    const dy = touch.clientY - state.startY;
+
+    if (!state.lockedAxis && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      state.lockedAxis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+    }
+
+    if (state.lockedAxis === "x") {
+      state.lastDx = dx;
+      if (Math.abs(dx) > 10) {
+        suppressTapRef.current = true;
+      }
+    }
+  };
+
+  const finishTouch = () => {
+    const state = touchStateRef.current;
+    if (!state.active) return;
+
+    if (state.lockedAxis === "x" && Math.abs(state.lastDx) > 45) {
+      suppressTapRef.current = true;
+      paginate(state.lastDx < 0 ? 1 : -1);
+    }
+
+    touchStateRef.current = {
+      active: false,
+      startX: 0,
+      startY: 0,
+      lastDx: 0,
+      lockedAxis: null,
+    };
+
+    setTimeout(() => {
+      touchActiveRef.current = false;
+      suppressTapRef.current = false;
+    }, 100);
   };
 
   const currentPhoto = total > 0 ? photographyList[safeIndex] : null;
@@ -248,9 +313,17 @@ export default function PhotoCarousel() {
       {/* Carousel Stage */}
       <div className="relative">
         <div
-          ref={stageRef}
-          className="relative flex items-center justify-center h-[280px] sm:h-[400px] lg:h-[460px]"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={finishTouch}
+          onTouchCancel={finishTouch}
+          className="relative left-1/2 -translate-x-1/2 w-screen touch-pan-y"
         >
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            <div
+              ref={stageRef}
+              className="relative flex items-center justify-center h-[280px] sm:h-[400px] lg:h-[460px]"
+            >
           <AnimatePresence
             initial={false}
             custom={{ dir: direction, desktop: isDesktop, width: stageWidth }}
@@ -291,12 +364,14 @@ export default function PhotoCarousel() {
                   onDragEnd={
                     isCenter
                       ? (_, info) => {
+                          if (touchActiveRef.current) return;
                           if (info.offset.x < -60) paginate(1);
                           else if (info.offset.x > 60) paginate(-1);
                         }
                       : undefined
                   }
                   onTap={() => {
+                    if (suppressTapRef.current) return;
                     if (isCenter) {
                       setLightboxOpen(true);
                     } else {
@@ -343,6 +418,8 @@ export default function PhotoCarousel() {
               </p>
             </div>
           )}
+            </div>
+          </div>
         </div>
 
         {/* Thumbnail Strip */}

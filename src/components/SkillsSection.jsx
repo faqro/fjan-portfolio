@@ -1,33 +1,71 @@
-import { useState, forwardRef } from "react";
+import { useState, useEffect, useRef, forwardRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search } from "lucide-react";
 import { skillCategories, skillKeywords } from "@/data/portfolioData";
 import { getSkillVisual } from "@/data/skillIcons";
 import SectionHeader from "./SectionHeader";
 
-const SkillIconTile = forwardRef(function SkillIconTile({ name, categoryLabel }, ref) {
-  const [hovered, setHovered] = useState(false);
+const SkillIconTile = forwardRef(function SkillIconTile(
+  { name, categoryLabel, isActive, onToggle },
+  ref
+) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const pointerTypeRef = useRef(null);
   const { Icon, color, bg, badge } = getSkillVisual(name);
+
+  const showTooltip = isHovered || isFocused || isActive;
 
   return (
     <motion.div
       ref={ref}
+      data-skill-tile
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.18, ease: "easeOut" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onFocus={() => setHovered(true)}
-      onBlur={() => setHovered(false)}
-      onClick={() => setHovered((prev) => !prev)}
+      onPointerEnter={(e) => {
+        if (e.pointerType === "mouse") {
+          setIsHovered(true);
+        }
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType === "mouse") {
+          setIsHovered(false);
+        }
+      }}
+      onPointerDown={(e) => {
+        pointerTypeRef.current = e.pointerType;
+      }}
+      onPointerUp={() => {
+        setTimeout(() => {
+          pointerTypeRef.current = null;
+        }, 0);
+      }}
+      onPointerCancel={() => {
+        pointerTypeRef.current = null;
+      }}
+      onFocus={() => {
+        if (!pointerTypeRef.current) {
+          setIsFocused(true);
+        }
+      }}
+      onBlur={() => setIsFocused(false)}
+      onClick={() => {
+        const pointerType = pointerTypeRef.current;
+        pointerTypeRef.current = null;
+        if (pointerType !== "mouse") {
+          onToggle();
+        }
+      }}
       tabIndex={0}
       role="button"
       aria-label={`${name} (${categoryLabel})`}
+      aria-pressed={isActive}
       className="relative group focus:outline-none"
     >
       {/* Animated Floating Tooltip */}
       <AnimatePresence>
-        {hovered && (
+        {showTooltip && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 z-30 pointer-events-none whitespace-nowrap">
             <motion.div
               initial={{ opacity: 0, y: 8, scale: 0.92 }}
@@ -53,7 +91,7 @@ const SkillIconTile = forwardRef(function SkillIconTile({ name, categoryLabel },
         whileTap={{ scale: 0.95 }}
         transition={{ type: "spring", stiffness: 400, damping: 20 }}
         className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bg} backdrop-blur-md border border-slate-400/40 shadow-[0_10px_24px_rgba(15,23,42,0.18)] flex items-center justify-center relative cursor-pointer transition-shadow hover:shadow-[0_14px_30px_rgba(15,23,42,0.28)] ${
-          hovered ? "ring-2 ring-violet-300/80" : ""
+          showTooltip ? "ring-2 ring-violet-300/80" : ""
         }`}
       >
         <Icon className={`w-7 h-7 sm:w-8 sm:h-8 ${color} transition-transform duration-200 group-hover:scale-110`} />
@@ -70,6 +108,18 @@ const SkillIconTile = forwardRef(function SkillIconTile({ name, categoryLabel },
 export default function SkillsSection() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeSkillKey, setActiveSkillKey] = useState(null);
+
+  useEffect(() => {
+    if (!activeSkillKey) return;
+    const handlePointerDown = (e) => {
+      if (!e.target.closest("[data-skill-tile]")) {
+        setActiveSkillKey(null);
+      }
+    };
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [activeSkillKey]);
 
   const visibleCategories =
     selectedCategory === "all"
@@ -167,13 +217,20 @@ export default function SkillsSection() {
       <div className="glass-panel-strong rounded-[2rem] p-6 sm:p-8">
         {flatSkills.length > 0 ? (
           <div className="grid grid-cols-[repeat(auto-fill,3.5rem)] sm:grid-cols-[repeat(auto-fill,4rem)] justify-between gap-x-3 gap-y-3.5 sm:gap-x-3.5 sm:gap-y-4">
-            {flatSkills.map((skill) => (
-              <SkillIconTile
-                key={`${skill.categoryId}-${skill.name}`}
-                name={skill.name}
-                categoryLabel={skill.categoryLabel}
-              />
-            ))}
+            {flatSkills.map((skill) => {
+              const skillKey = `${skill.categoryId}-${skill.name}`;
+              return (
+                <SkillIconTile
+                  key={skillKey}
+                  name={skill.name}
+                  categoryLabel={skill.categoryLabel}
+                  isActive={activeSkillKey === skillKey}
+                  onToggle={() =>
+                    setActiveSkillKey((prev) => (prev === skillKey ? null : skillKey))
+                  }
+                />
+              );
+            })}
           </div>
         ) : (
           <p className="text-center text-sm text-slate-500 py-6">

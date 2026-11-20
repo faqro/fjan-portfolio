@@ -1,8 +1,39 @@
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowDownRight, MapPin, Sparkles } from "lucide-react";
+import { ArrowDownRight, ArrowLeft, MapPin, Maximize2, Minimize2 } from "lucide-react";
 import { profileData } from "@/data/portfolioData";
 
-export default function HeroSection() {
+// eslint-disable-next-line react/prop-types
+export default function HeroSection({ isPlayingGlimmerdeep = false, onExitGlimmerdeep }) {
+  const gameContainerRef = useRef(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(document.fullscreenElement === gameContainerRef.current);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
+  const toggleFullscreen = async () => {
+    const container = gameContainerRef.current;
+    if (!container) return;
+
+    try {
+      if (document.fullscreenElement === container) {
+        await document.exitFullscreen();
+      } else {
+        await container.requestFullscreen();
+      }
+    } catch {
+      // Ignore fullscreen errors if blocked by browser policy
+    }
+  };
+
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -23,105 +54,151 @@ export default function HeroSection() {
         <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-gradient-to-br from-violet-200/50 via-sky-200/40 to-transparent blur-2xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-gradient-to-tr from-rose-200/40 via-amber-100/40 to-transparent blur-2xl pointer-events-none" />
 
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-          {/* Left: Avatar & quick status */}
-          <div className="lg:col-span-4 flex flex-col items-center lg:items-start">
-            <motion.div
-              whileHover={{ scale: 1.03, rotate: 1 }}
-              transition={{ type: "spring", stiffness: 280, damping: 18 }}
-              className="relative"
+        {isPlayingGlimmerdeep ? (
+          <div className="relative flex flex-col gap-4">
+            <div className="flex items-center justify-between gap-4">
+              <motion.button
+                type="button"
+                whileHover={{ scale: 1.03, y: -1 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={onExitGlimmerdeep}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl glass-pill text-slate-700 font-semibold text-sm hover:bg-white/90 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back</span>
+              </motion.button>
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                Glimmerdeep
+              </span>
+            </div>
+
+            <div
+              ref={gameContainerRef}
+              className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#0b0a18] ring-1 ring-white/80 shadow-lg"
             >
-              <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-tr from-violet-300/70 via-sky-300/70 to-rose-300/70 blur-md opacity-75" />
-              <img
-                src={profileData.avatar}
-                alt={profileData.name}
-                className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-[1.75rem] object-cover ring-4 ring-white/90 shadow-xl"
+              <iframe
+                src="https://faraaz.page/glimmerdeep/"
+                title="Glimmerdeep"
+                className="w-full h-full border-0 block"
+                allow="autoplay; fullscreen"
               />
+              <button
+                type="button"
+                onClick={toggleFullscreen}
+                aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+                title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+                className="absolute bottom-3 right-3 z-10 inline-flex items-center justify-center p-2.5 rounded-xl bg-slate-900/75 hover:bg-slate-900/90 text-white backdrop-blur-md border border-white/20 shadow-lg transition-all hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-violet-300/80"
+              >
+                {isFullscreen ? (
+                  <Minimize2 className="w-4 h-4" />
+                ) : (
+                  <Maximize2 className="w-4 h-4" />
+                )}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            {/* Left: Avatar & quick status */}
+            <div className="lg:col-span-4 flex flex-col items-center lg:items-start">
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.35 }}
-                className="absolute -bottom-3 -right-3 glass-pill rounded-full px-3 py-1.5 flex items-center gap-1.5 text-xs font-semibold text-slate-700 shadow-md"
+                whileHover={{ scale: 1.03, rotate: 1 }}
+                transition={{ type: "spring", stiffness: 280, damping: 18 }}
+                className="relative"
               >
-                <MapPin className="w-3.5 h-3.5 text-violet-500" />
-                {profileData.location}
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* Right: Intro, role chips & CTAs */}
-          <div className="lg:col-span-8 text-center lg:text-left">
-
-            <motion.h1
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-4"
-            >
-              Hi, I&apos;m{" "}
-              <span className="pastel-text-gradient">{profileData.name}</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.28 }}
-              className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-6"
-            >
-              {profileData.bio}
-            </motion.p>
-
-            {/* Role Pills */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              className="flex flex-wrap justify-center lg:justify-start gap-2.5 mb-8"
-            >
-              {profileData.roles.map((role, idx) => (
-                <motion.span
-                  key={role.label}
-                  whileHover={{ y: -3, scale: 1.04 }}
-                  transition={{ type: "spring", stiffness: 360, damping: 20 }}
-                  initial={{ opacity: 0, scale: 0.9 }}
+                <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-tr from-violet-300/70 via-sky-300/70 to-rose-300/70 blur-md opacity-75" />
+                <img
+                  src={profileData.avatar}
+                  alt={profileData.name}
+                  data-hero-avatar="true"
+                  className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-[1.75rem] object-cover ring-4 ring-white/90 shadow-xl"
+                />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold border backdrop-blur-md shadow-sm cursor-default ${role.pastel}`}
-                  style={{ transitionDelay: `${idx * 30}ms` }}
+                  transition={{ delay: 0.35 }}
+                  className="absolute -bottom-3 -right-3 glass-pill rounded-full px-3 py-1.5 flex items-center gap-1.5 text-xs font-semibold text-slate-700 shadow-md"
                 >
-                  <span>{role.emoji}</span>
-                  <span>{role.label}</span>
-                </motion.span>
-              ))}
-            </motion.div>
+                  <MapPin className="w-3.5 h-3.5 text-violet-500" />
+                  {profileData.location}
+                </motion.div>
+              </motion.div>
+            </div>
 
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.42 }}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
-            >
-              <motion.button
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => scrollToSection("projects")}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-900 text-white font-semibold text-sm shadow-lg shadow-slate-900/10 hover:bg-slate-800 transition-colors"
-              >
-                <span>Explore Projects</span>
-                <ArrowDownRight className="w-4 h-4" />
-              </motion.button>
+            {/* Right: Intro, role chips & CTAs */}
+            <div className="lg:col-span-8 text-center lg:text-left">
 
-              <motion.button
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => scrollToSection("contact")}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl glass-pill text-slate-700 font-semibold text-sm hover:bg-white/90 transition-colors"
+              <motion.h1
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-4"
               >
-                <span>Get in Touch</span>
-              </motion.button>
-            </motion.div>
+                Hi, I&apos;m{" "}
+                <span className="pastel-text-gradient">{profileData.name}</span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.28 }}
+                className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-6"
+              >
+                {profileData.bio}
+              </motion.p>
+
+              {/* Role Pills */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className="flex flex-wrap justify-center lg:justify-start gap-2.5 mb-8"
+              >
+                {profileData.roles.map((role, idx) => (
+                  <motion.span
+                    key={role.label}
+                    whileHover={{ y: -3, scale: 1.04 }}
+                    transition={{ type: "spring", stiffness: 360, damping: 20 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold border backdrop-blur-md shadow-sm cursor-default ${role.pastel}`}
+                    style={{ transitionDelay: `${idx * 30}ms` }}
+                  >
+                    <span>{role.emoji}</span>
+                    <span>{role.label}</span>
+                  </motion.span>
+                ))}
+              </motion.div>
+
+              {/* CTA Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.42 }}
+                className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => scrollToSection("projects")}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-900 text-white font-semibold text-sm shadow-lg shadow-slate-900/10 hover:bg-slate-800 transition-colors"
+                >
+                  <span>Explore Projects</span>
+                  <ArrowDownRight className="w-4 h-4" />
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => scrollToSection("contact")}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl glass-pill text-slate-700 font-semibold text-sm hover:bg-white/90 transition-colors"
+                >
+                  <span>Get in Touch</span>
+                </motion.button>
+              </motion.div>
+            </div>
           </div>
-        </div>
+        )}
       </motion.div>
     </section>
   );

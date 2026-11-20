@@ -16,6 +16,7 @@ import {
   TextSelect,
   Check,
   AlertCircle,
+  Gamepad2,
 } from "lucide-react";
 
 const MENU_MARGIN = 12;
@@ -146,7 +147,8 @@ function replaceSelectionInInput(el, start, end, replacement) {
   el.dispatchEvent(new Event("input", { bubbles: true }));
 }
 
-export default function CustomContextMenu() {
+// eslint-disable-next-line react/prop-types
+export default function CustomContextMenu({ onPlayGlimmerdeep }) {
   const [menuState, setMenuState] = useState(null);
   const [position, setPosition] = useState({ left: 0, top: 0 });
   const [toast, setToast] = useState(null);
@@ -222,6 +224,7 @@ export default function CustomContextMenu() {
         linkUrl: linkEl ? linkEl.href : null,
         imgSrc: imgEl ? imgEl.currentSrc || imgEl.src : null,
         imgEl,
+        isHeroAvatar: Boolean(imgEl?.dataset?.heroAvatar === "true"),
       });
     };
 
@@ -524,10 +527,16 @@ export default function CustomContextMenu() {
     setTimeout(() => window.print(), 60);
   };
 
+  const handlePlayGlimmerdeep = () => {
+    closeMenu();
+    onPlayGlimmerdeep?.();
+  };
+
   const hasSelection = Boolean(menuState?.selectedText && menuState.selectedText.length > 0);
   const showEditSection = hasSelection || menuState?.isEditable;
   const showLinkSection = Boolean(menuState?.linkUrl);
   const showImageSection = Boolean(menuState?.imgSrc);
+  const showHeroEasterEgg = Boolean(menuState?.isHeroAvatar);
 
   return (
     <>
@@ -696,6 +705,16 @@ export default function CustomContextMenu() {
                 onClick={handlePrint}
               />
             </div>
+
+            {showHeroEasterEgg && (
+              <div className="pt-1 mt-1 border-t border-slate-200/70">
+                <MenuItem
+                  icon={Gamepad2}
+                  label="Play Glimmerdeep"
+                  onClick={handlePlayGlimmerdeep}
+                />
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

@@ -61,6 +61,7 @@ import {
   Paintbrush,
   Code2,
   Gamepad2,
+  Joystick,
   Globe,
 } from "lucide-react";
 
@@ -113,6 +114,7 @@ const iconMap = {
 
   Unity: { Icon: SiUnity, color: "text-slate-700", bg: "bg-slate-100/90" },
   Godot: { Icon: SiGodotengine, color: "text-sky-600", bg: "bg-sky-50/90" },
+  Phaser: { Icon: Joystick, color: "text-fuchsia-600", bg: "bg-fuchsia-50/90" },
   GDevelop: { Icon: Gamepad2, color: "text-teal-600", bg: "bg-teal-50/90" },
   "GameMaker Studio": { Icon: SiGamemaker, color: "text-emerald-600", bg: "bg-emerald-50/90" },
   Construct: { Icon: SiConstruct3, color: "text-cyan-600", bg: "bg-cyan-50/90" },

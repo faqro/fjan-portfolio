@@ -1,5 +1,4 @@
 import profilePicture from "@/assets/profilepicture.webp";
-import qwaleLogo from "@/assets/qwale.jpg";
 import qwalecodeLogo from "@/assets/qwalecode.jpg";
 import uscorLogo from "@/assets/uscor.jpg";
 import kogitsioLogo from "@/assets/kogit.jpg";
@@ -7,6 +6,7 @@ import mokaLogo from "@/assets/moka.jpg";
 import bicerinLogo from "@/assets/bicerin.jpg";
 import blastfortLogo from "@/assets/blastfort.jpg";
 import qauthifyLogo from "@/assets/qauthify.jpg";
+import glimmerdeepLogo from "@/assets/glimmerdeep.jpg";
 
 import quentoLogo from "@/assets/xp/quento.jpg";
 import shabodiLogo from "@/assets/xp/shabodi.jpg";
@@ -65,7 +65,7 @@ export const projectsList = [
     description: "Lightweight Matrix homeserver for bridge-heavy applications written in Rust.",
     image: bicerinLogo,
     url: "https://github.com/qwale-app/bicerin-matrix",
-    tags: ["Chat Messaging", "Social Networking", "Rust"],
+    tags: ["Social Networking", "Rust"],
     pastel: "from-amber-200/70 via-stone-100/70 to-orange-100/70",
     accentBadge: "bg-amber-100/90 text-amber-900"
   },
@@ -75,7 +75,7 @@ export const projectsList = [
     description: "An app that aggregates chat messages across services and provides a central place of communication.",
     image: mokaLogo,
     url: "https://mokachat.app/",
-    tags: ["Social Media", "Texting", "Nodejs"],
+    tags: ["Social Media", "Texting"],
     pastel: "from-indigo-100/70 via-white/70 to-purple-100/70",
     accentBadge: "bg-indigo-100/90 text-indigo-700"
   },
@@ -85,7 +85,7 @@ export const projectsList = [
     description: "Tutoring/studying/social networking app for college students.",
     image: null,
     url: "https://github.com/studysesh-app/studysesh",
-    tags: ["Tutoring", "Studying", "React Native"],
+    tags: ["Tutoring", "React Native"],
     pastel: "from-red-100/70 via-white/70 to-rose-100/70",
     accentBadge: "bg-red-100/90 text-red-700"
   },
@@ -96,7 +96,7 @@ export const projectsList = [
       "Lightweight collaborative AI-integrated code editor designed for fast, real-time pair programming and intelligent inline assistance.",
     image: qwalecodeLogo,
     url: "https://github.com/faqro/qwale-code",
-    tags: ["AI Editor", "Collaboration", "TypeScript"],
+    tags: ["AI Editor", "Collaboration"],
     pastel: "from-violet-100/70 via-white/70 to-sky-100/70",
     accentBadge: "bg-violet-100/90 text-violet-700",
   },
@@ -107,7 +107,7 @@ export const projectsList = [
       "AI search assistant built to synthesize answers across sources with retrieval-augmented workflows and clean citations.",
     image: kogitsioLogo,
     url: "https://dev.kogits.io",
-    tags: ["RAG", "LLMs", "Search"],
+    tags: ["RAG", "Search"],
     pastel: "from-sky-100/70 via-white/70 to-teal-100/70",
     accentBadge: "bg-sky-100/90 text-sky-700",
   },
@@ -128,7 +128,7 @@ export const projectsList = [
     description: "A lightweight and open-source JWT-based SSO auth platform made with Node, Express, and MongoDB.",
     image: qauthifyLogo,
     url: "https://github.com/faqro/QAuthify",
-    tags: ["Authentication", "Single-Sign On", "JWT"],
+    tags: ["Authentication", "Single-Sign On"],
     pastel: "from-blue-100/70 via-white/70 to-sky-100/70",
     accentBadge: "bg-blue-100/90 text-blue-700"
   },
@@ -139,7 +139,7 @@ export const projectsList = [
       "An esoteric programming language implemented in C++ and inspired by Lisp, exploring minimalist syntax and custom evaluation.",
     image: uscorLogo,
     url: "https://github.com/faqro/uscor-lang",
-    tags: ["C++", "Compiler", "Lisp-inspired"],
+    tags: ["C++", "Compiler"],
     pastel: "from-rose-100/70 via-white/70 to-amber-100/70",
     accentBadge: "bg-rose-100/90 text-rose-700",
   },
@@ -149,9 +149,19 @@ export const projectsList = [
     description: "A multi-platform JavaScript-based indie game, with multiplayer networking features, and an innovative gameplay concept. Available on Steam, itch.io, and Xbox.",
     image: blastfortLogo,
     url: "https://store.steampowered.com/app/1682790/BlastFort/",
-    tags: ["Video Game", "Multiplayer", "JavaScript"],
+    tags: ["JavaScript", "Multiplayer"],
     pastel: "from-orange-100/70 via-white/70 to-amber-100/70",
     accentBadge: "bg-orange-100/90 text-orange-700"
+  },
+  {
+    name: "Glimmerdeep",
+    subtitle: "faqro.github.io/glimmerdeep",
+    description: "A simple browser-based multiplayer roguelike dungeon-crawler RPG built using Phaser.",
+    image: glimmerdeepLogo,
+    url: "http://faqro.github.io/glimmerdeep",
+    tags: ["Phaser 3", "Multiplayer"],
+    pastel: "from-green-100/70 via-white/70 to-blue-100/70",
+    accentBadge: "bg-green-100/90 text-green-700"
   },
 ];
 
@@ -328,7 +338,7 @@ export const skillCategories = [
     id: "gamedev",
     label: "Game Dev",
     pastel: "bg-amber-100/80 text-amber-800",
-    items: ["Unity", "Godot", "GDevelop", "GameMaker Studio", "Construct"],
+    items: ["Unity", "Godot", "Phaser", "GDevelop", "GameMaker Studio", "Construct"],
   },
   {
     id: "productivity",
@@ -421,6 +431,7 @@ export const skillKeywords = {
 
   Unity: ["game", "3d", "2d", "csharp", "c#", "engine"],
   Godot: ["game", "3d", "2d", "gdscript", "engine"],
+  Phaser: ["game", "2d", "html5", "javascript", "typescript", "js", "ts", "webgl", "canvas", "engine"],
   GDevelop: ["game", "2d", "engine", "no-code"],
   "GameMaker Studio": ["game", "2d", "gml", "engine"],
   Construct: ["game", "2d", "html5", "engine"],

@@ -34,6 +34,15 @@ export default function HeroSection({ isPlayingGlimmerdeep = false, onExitGlimme
     }
   };
 
+  const isMobileUserAgent =
+    typeof navigator !== "undefined" &&
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(
+      navigator.userAgent
+    );
+  const glimmerdeepSrc = isMobileUserAgent
+    ? "https://faraaz.page/glimmerdeep/?mobile=true"
+    : "https://faraaz.page/glimmerdeep/";
+
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -77,7 +86,7 @@ export default function HeroSection({ isPlayingGlimmerdeep = false, onExitGlimme
               className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#0b0a18] ring-1 ring-white/80 shadow-lg"
             >
               <iframe
-                src="https://faraaz.page/glimmerdeep/"
+                src={glimmerdeepSrc}
                 title="Glimmerdeep"
                 className="w-full h-full border-0 block"
                 allow="autoplay; fullscreen"
